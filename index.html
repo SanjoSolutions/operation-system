@@ -38,5 +38,12 @@
       <iframe src="https://sanjosolutions.github.io/unnamed/helium_ballons.html" width="640" height="480" frameborder="0"></iframe>
     </div>
   </div>
+  <script type="module">
+    import { makeMovable } from './unnamed/makeMovable.js'
+
+    const $window = document.querySelector('.window')
+    const $windowTitle = $window.querySelector('.window-title')
+    makeMovable($window, $windowTitle)
+  </script>
 </body>
 </html>
