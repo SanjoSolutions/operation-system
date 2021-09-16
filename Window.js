@@ -24,6 +24,7 @@ const template = createTemplate(`
         line-height: 1.5rem;
         height: 1.5rem;
         padding: 0 0.25rem;
+        user-select: none;
       }
   
       .window-body {
