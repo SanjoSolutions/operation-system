@@ -3,11 +3,13 @@ export class WindowManager {
 
   constructor() {
     this._windows = []
+    this._zIndex = 0
   }
 
   spawnWindow(window) {
     this._addWindow(window)
     this._positionWindow(window)
+    this._registerPointerDownHandler(window)
     document.body.appendChild(window)
   }
 
@@ -19,6 +21,15 @@ export class WindowManager {
     const { x, y } = this._determineWindowPosition(window)
     window.style.left = `${ x }px`
     window.style.top = `${ y }px`
+  }
+
+  _registerPointerDownHandler(window) {
+    window.addEventListener('pointerdown', this._putWindowOnTop.bind(this, window))
+  }
+
+  _putWindowOnTop(window) {
+    this._zIndex += 1
+    window.style.zIndex = this._zIndex
   }
 
   _determineWindowPosition(window) {
