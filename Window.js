@@ -4,6 +4,11 @@ import { makeMovable } from './unnamed/makeMovable.js'
 const template = createTemplate(`
   <template>
     <style>
+      :host {
+        display: inline-block;
+        position: absolute;
+      }
+    
       .window {
         border: 1px solid black;
         background-color: black;

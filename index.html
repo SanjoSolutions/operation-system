@@ -10,13 +10,8 @@
     }
   </style>
   <script type="module">
+    import { componentName } from './componentName.js'
     import { Window } from './Window.js'
-
-    const prefix = 'os-'
-
-    function componentName(name) {
-      return `${ prefix }${ name }`
-    }
 
     function define(name, constructor) {
       customElements.define(componentName(name), constructor)
@@ -26,17 +21,34 @@
   </script>
 </head>
 <body>
-<os-window
-  title="Helium Ballons"
-  url="https://sanjosolutions.github.io/unnamed/helium_ballons.html"
-></os-window>
-<os-window
-  title="Jonas"
-  url="https://sanjosolutions.github.io/unnamed/jonas.html"
-></os-window>
-<os-window
-  title="Das"
-  url="https://sanjosolutions.github.io/unnamed/das.html"
-></os-window>
+<script type="module">
+  import { componentName } from './componentName.js'
+  import { setAttributes } from './unnamed/setAttributes.js'
+  import { WindowManager } from './WindowManager.js'
+
+  function createWindow(attributes) {
+    const $window = document.createElement(componentName('window'))
+    setAttributes($window, attributes)
+    return $window
+  }
+
+  const windows = [
+    createWindow({
+      title: "Helium Ballons",
+      url: "https://sanjosolutions.github.io/unnamed/helium_ballons.html"
+    }),
+    createWindow({
+      title: "Jonas",
+      url: "https://sanjosolutions.github.io/unnamed/jonas.html"
+    }),
+    createWindow({
+      title: "Das",
+      url: "https://sanjosolutions.github.io/unnamed/das.html"
+    })
+  ]
+
+  const windowManager = new WindowManager()
+  windows.forEach(window => windowManager.spawnWindow(window))
+</script>
 </body>
 </html>
