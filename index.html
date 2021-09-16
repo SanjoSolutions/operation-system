@@ -4,46 +4,26 @@
   <meta charset="utf-8">
   <title>Operation System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    .window {
-      border: 1px solid black;
-      background-color: black;
-      display: inline-block;
-      position: absolute;
+  <script type="module">
+    import { Window } from './Window.js'
+
+    const prefix = 'os-'
+
+    function componentName(name) {
+      return `${ prefix }${ name }`
     }
 
-    .window-title {
-      background-color: blue;
-      color: white;
-      font-family: sans-serif;
-      border-bottom: 1px solid white;
-      line-height: 1.5rem;
-      height: 1.5rem;
-      padding: 0 0.25rem;
+    function define(name, constructor) {
+      customElements.define(componentName(name), constructor)
     }
 
-    .window-body {
-
-    }
-
-    iframe {
-      display: block;
-    }
-  </style>
+    define('window', Window)
+  </script>
 </head>
 <body>
-  <div class="window">
-    <div class="window-title">Helium Ballons</div>
-    <div class="window-body">
-      <iframe src="https://sanjosolutions.github.io/unnamed/helium_ballons.html" width="640" height="480" frameborder="0"></iframe>
-    </div>
-  </div>
-  <script type="module">
-    import { makeMovable } from './unnamed/makeMovable.js'
-
-    const $window = document.querySelector('.window')
-    const $windowTitle = $window.querySelector('.window-title')
-    makeMovable($window, $windowTitle)
-  </script>
+<os-window
+  title="Helium Ballons"
+  url="https://sanjosolutions.github.io/unnamed/helium_ballons.html"
+></os-window>
 </body>
 </html>
