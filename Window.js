@@ -38,6 +38,7 @@ const template = createTemplate(`
         height: 1.5rem;
         padding-left: 0.25rem;
         user-select: none;
+        touch-action: none;
       }
       
       .window-title-text {
