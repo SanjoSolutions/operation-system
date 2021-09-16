@@ -10,6 +10,7 @@ export class WindowManager {
     this._addWindow(window)
     this._positionWindow(window)
     this._registerPointerDownHandler(window)
+    this._registerMaximizeHandler(window)
     document.body.appendChild(window)
   }
 
@@ -25,6 +26,28 @@ export class WindowManager {
 
   _registerPointerDownHandler(window) {
     window.addEventListener('pointerdown', this._putWindowOnTop.bind(this, window))
+  }
+
+  _registerMaximizeHandler(window) {
+    let position = null
+    window.addEventListener('maximize', () => {
+      if (window.classList.contains('window--maximized')) {
+        window.classList.remove('window--maximized')
+        if (position) {
+          window.style.left = position.x
+          window.style.top = position.y
+        }
+        position = null
+      } else {
+        position = {
+          x: window.style.left,
+          y: window.style.top
+        }
+        window.style.left = null
+        window.style.top = null
+        window.classList.add('window--maximized')
+      }
+    })
   }
 
   _putWindowOnTop(window) {
