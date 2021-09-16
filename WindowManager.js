@@ -55,8 +55,8 @@ export class WindowManager {
 
   _registerResizeHandlers($window) {
     const onPointerMove = (event) => {
-      $window.style.width = Math.max(0, $window.clientWidth + event.movementX) + 'px'
-      $window.style.height = Math.max(0, $window.clientHeight + event.movementY) + 'px'
+      $window.style.width = Math.max(0, event.clientX - $window.offsetLeft) + 'px'
+      $window.style.height = Math.max(0, event.clientY - $window.offsetTop) + 'px'
     }
 
     $window.addEventListener('resize-start', () => {
