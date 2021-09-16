@@ -1,3 +1,5 @@
+import { disableIFramePointerEvents } from './disableIFramePointerEvents.js'
+import { enableIFramePointerEvents } from './enableIFramePointerEvents.js'
 import { createTemplate } from './unnamed/createTemplate.js'
 import { makeMovable } from './unnamed/makeMovable.js'
 
@@ -21,6 +23,7 @@ const template = createTemplate(`
         flex-direction: column;
         border: 1px solid black;
         background-color: white;
+        position: relative;
       }
   
       .window-title {
@@ -66,11 +69,21 @@ const template = createTemplate(`
         flex-direction: row;
         align-content: stretch;
         align-items: stretch;
+        overflow: hidden;
       }
   
       .window-body iframe {
         flex: 1 1 auto;
         display: block;
+      }
+      
+      .window-resize {
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        width: 0.5rem;
+        height: 0.5rem;
+        cursor: nwse-resize;
       }
     </style>
     <div class="window">
@@ -85,6 +98,7 @@ const template = createTemplate(`
       <div class="window-body">
         <iframe src="" frameborder="0"></iframe>
       </div>
+      <div class="window-resize"></div>
     </div>
   </template>
 `)
@@ -124,21 +138,23 @@ export class Window extends HTMLElement {
     return this._shadowRoot.querySelector('.window-body iframe')
   }
 
+  getResize() {
+    return this._shadowRoot.querySelector('.window-resize')
+  }
+
   connectedCallback() {
     const $titleText = this.getTitleText()
 
     this._makeMaximizable()
 
+    this._makeResizable()
+
     makeMovable(
       this,
       {
         elementWithWhichTheElementCanBeMovedWith: $titleText,
-        onPointerDown: () => {
-          document.body.classList.add('disable-iframe-pointer-events')
-        },
-        onPointerUp: () => {
-          document.body.classList.remove('disable-iframe-pointer-events')
-        }
+        onPointerDown: disableIFramePointerEvents,
+        onPointerUp: enableIFramePointerEvents
       }
     )
   }
@@ -148,6 +164,21 @@ export class Window extends HTMLElement {
       this.dispatchEvent(new CustomEvent(
         'maximize'
       ))
+    })
+  }
+
+  _makeResizable() {
+    let isResizing = false
+    const $resize = this.getResize()
+    $resize.addEventListener('pointerdown', () => {
+      isResizing = true
+      this.dispatchEvent(new CustomEvent('resize-start'))
+    })
+    window.addEventListener('pointerup', () => {
+      if (isResizing) {
+        isResizing = false
+        this.dispatchEvent(new CustomEvent('resize-end'))
+      }
     })
   }
 

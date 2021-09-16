@@ -1,3 +1,6 @@
+import { disableIFramePointerEvents } from './disableIFramePointerEvents.js'
+import { enableIFramePointerEvents } from './enableIFramePointerEvents.js'
+
 export class WindowManager {
   static WINDOW_POSITION_OFFSET = 16
 
@@ -11,6 +14,7 @@ export class WindowManager {
     this._positionWindow(window)
     this._registerPointerDownHandler(window)
     this._registerMaximizeHandler(window)
+    this._registerResizeHandlers(window)
     document.body.appendChild(window)
   }
 
@@ -47,6 +51,23 @@ export class WindowManager {
         window.style.top = null
         window.classList.add('window--maximized')
       }
+    })
+  }
+
+  _registerResizeHandlers($window) {
+    const onPointerMove = (event) => {
+      $window.style.width = Math.max(0, $window.clientWidth + event.movementX) + 'px'
+      $window.style.height = Math.max(0, $window.clientHeight + event.movementY) + 'px'
+    }
+
+    $window.addEventListener('resize-start', () => {
+      disableIFramePointerEvents()
+      window.addEventListener('pointermove', onPointerMove)
+    })
+
+    $window.addEventListener('resize-end', () => {
+      enableIFramePointerEvents()
+      window.removeEventListener('pointermove', onPointerMove)
     })
   }
 
