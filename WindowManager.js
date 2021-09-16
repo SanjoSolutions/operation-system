@@ -1,5 +1,8 @@
 import { disableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/disableIFramePointerEvents.js'
 import { enableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/enableIFramePointerEvents.js'
+import { getStyle } from './unnamed/getStyle.js'
+import { resetStyle } from './unnamed/resetStyle.js'
+import { setStyle } from './unnamed/setStyle.js'
 
 export class WindowManager {
   static WINDOW_POSITION_OFFSET = 16
@@ -33,34 +36,18 @@ export class WindowManager {
   }
 
   _registerMaximizeHandler(window) {
-    let position = null
-    let size = null
+    const styleNames = ['left', 'top', 'width', 'height']
+    let style = null
     window.addEventListener('maximize', () => {
       if (window.classList.contains('window--maximized')) {
         window.classList.remove('window--maximized')
-        if (position) {
-          window.style.left = position.x
-          window.style.top = position.y
+        if (style) {
+          setStyle(style, window)
         }
-        if (size) {
-          window.style.width = size.width
-          window.style.height = size.height
-        }
-        position = null
-        size = null
+        style = null
       } else {
-        position = {
-          x: window.style.left,
-          y: window.style.top
-        }
-        size = {
-          width: window.style.width,
-          height: window.style.height
-        }
-        window.style.left = null
-        window.style.top = null
-        window.style.width = null
-        window.style.height = null
+        style = getStyle(styleNames, window)
+        resetStyle(styleNames, window)
         window.classList.add('window--maximized')
       }
     })
