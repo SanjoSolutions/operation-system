@@ -11,7 +11,7 @@ const template = createTemplate(`
     
       .window {
         border: 1px solid black;
-        background-color: black;
+        background-color: white;
         display: inline-block;
         position: absolute;
       }
