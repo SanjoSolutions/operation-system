@@ -43,8 +43,8 @@ export class WindowManager {
           window.style.top = position.y
         }
         if (size) {
-          window.style.width = size.width + 'px'
-          window.style.height = size.height + 'px'
+          window.style.width = size.width
+          window.style.height = size.height
         }
         position = null
         size = null
@@ -54,8 +54,8 @@ export class WindowManager {
           y: window.style.top
         }
         size = {
-          width: window.clientWidth,
-          height: window.clientHeight
+          width: window.style.width,
+          height: window.style.height
         }
         window.style.left = null
         window.style.top = null
