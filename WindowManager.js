@@ -34,6 +34,7 @@ export class WindowManager {
 
   _registerMaximizeHandler(window) {
     let position = null
+    let size = null
     window.addEventListener('maximize', () => {
       if (window.classList.contains('window--maximized')) {
         window.classList.remove('window--maximized')
@@ -41,14 +42,25 @@ export class WindowManager {
           window.style.left = position.x
           window.style.top = position.y
         }
+        if (size) {
+          window.style.width = size.width + 'px'
+          window.style.height = size.height + 'px'
+        }
         position = null
+        size = null
       } else {
         position = {
           x: window.style.left,
           y: window.style.top
         }
+        size = {
+          width: window.clientWidth,
+          height: window.clientHeight
+        }
         window.style.left = null
         window.style.top = null
+        window.style.width = null
+        window.style.height = null
         window.classList.add('window--maximized')
       }
     })
