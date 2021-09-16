@@ -68,7 +68,18 @@ export class Window extends HTMLElement {
   connectedCallback() {
     const $window = this.getWindow()
     const $title = this.getTitle()
-    makeMovable($window, $title)
+    makeMovable(
+      $window,
+      {
+        elementWithWhichTheElementCanBeMovedWith: $title,
+        onPointerDown: () => {
+          document.body.classList.add('disable-iframe-pointer-events')
+        },
+        onPointerUp: () => {
+          document.body.classList.remove('disable-iframe-pointer-events')
+        }
+      }
+    )
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
