@@ -1,5 +1,5 @@
-import { disableIFramePointerEvents } from './disableIFramePointerEvents.js'
-import { enableIFramePointerEvents } from './enableIFramePointerEvents.js'
+import { disableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/disableIFramePointerEvents.js'
+import { enableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/enableIFramePointerEvents.js'
 
 export class WindowManager {
   static WINDOW_POSITION_OFFSET = 16

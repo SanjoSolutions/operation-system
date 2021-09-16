@@ -1,5 +1,5 @@
-import { disableIFramePointerEvents } from './disableIFramePointerEvents.js'
-import { enableIFramePointerEvents } from './enableIFramePointerEvents.js'
+import { disableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/disableIFramePointerEvents.js'
+import { enableIFramePointerEvents } from './unnamed/disable-iframe-pointer-events/enableIFramePointerEvents.js'
 import { createTemplate } from './unnamed/createTemplate.js'
 import { makeMovable } from './unnamed/makeMovable.js'
 
