@@ -85,6 +85,7 @@ const template = createTemplate(`
         width: 0.5rem;
         height: 0.5rem;
         cursor: nwse-resize;
+        touch-action: none;
       }
     </style>
     <div class="window">
@@ -163,7 +164,7 @@ export class Window extends HTMLElement {
   _makeMaximizable() {
     this.getMaximize().addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent(
-        'maximize'
+        'maximize',
       ))
     })
   }
