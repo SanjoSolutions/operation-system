@@ -30,34 +30,48 @@
   import { componentName } from './componentName.js'
   import { setAttributes } from './unnamed/setAttributes.js'
   import { WindowManager } from './WindowManager.js'
+  import { PersistenceService } from './PersistenceService.js'
+
+  const persistenceService = new PersistenceService()
 
   function createWindow(attributes) {
+    /**
+     * @type Window
+     */
     const $window = document.createElement(componentName('window'))
+    $window.addEventListener('moved', () => persistenceService.saveWindowPosition($window))
     setAttributes($window, attributes)
     return $window
   }
 
   const windows = [
     createWindow({
+      id: 1,
       title: 'Helium Ballons',
       url: 'https://sanjosolutions.github.io/unnamed/helium_ballons.html',
     }),
     createWindow({
+      id: 2,
       title: 'Jonas',
       url: 'https://sanjosolutions.github.io/unnamed/jonas.html',
     }),
     createWindow({
+      id: 3,
       title: 'Das',
       url: 'https://sanjosolutions.github.io/unnamed/das.html',
     }),
     createWindow({
+      id: 4,
       title: 'Word',
       url: 'https://sanjosolutions.github.io/unnamed/word/word.html',
     }),
   ]
 
   const windowManager = new WindowManager()
-  windows.forEach(window => windowManager.spawnWindow(window))
+  windows.forEach(window => {
+    windowManager.spawnWindow(window)
+    persistenceService.restoreWindowPosition(window)
+  })
 </script>
 </body>
 </html>

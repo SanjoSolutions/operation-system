@@ -156,7 +156,10 @@ export class Window extends HTMLElement {
       {
         elementWithWhichTheElementCanBeMovedWith: $titleText,
         onPointerDown: disableIFramePointerEvents,
-        onPointerUp: enableIFramePointerEvents
+        onPointerUp: () => {
+          enableIFramePointerEvents()
+          this.dispatchEvent(new CustomEvent('moved'))
+        }
       }
     )
   }
